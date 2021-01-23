@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Numerologia</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+
+      body{
+        margin: 0;
+        padding: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      input{
+        text-align: center;
+        width: calc(100% - 40px);
+        height: 20px;
+        padding: 20px;
+        margin: 20px;
+        display: table;
+        font-size: 20px;
+      }
+
+      ul{
+        text-align: center;
+        list-style: none;
+        padding: 10px 20px;
+      }
+
+      li{
+        font-size: 20px;
+        margin: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid gray;
+      }
+
+    </style>
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <main>
+      
+      <input type="text" id="input_number" placeholder="Digite sua frase aqui" onchange="translateNumber()">
+
+      <ul id="results"></ul>
+      
+    </main>
+    
+    <script>
+
+      var valuesChar = {
+        0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9,
+        ' ': 0,
+        a: 1, 'á': 3, 'à': 2, 'ä': 2, 'â': 8, 'ã': 4,
+        i: 1, 'í': 3, 'ì': 2, 'ï': 2, 'î': 8, 
+        q: 1, j: 1, y: 1, 
+        b: 2, b: 2, r: 2,
+        c: 3, g: 3, l: 3, s: 3, 
+        d: 4, m: 4, t: 4, 
+        e: 5, 'é': 7, 'è': 10, 'ë': 10, 'ê': 12,
+        n: 5, h: 5, 
+        u: 6, 'ú': 8, 'ù': 12, 'ü': 12, 'û': 15,
+        v: 6, w: 6, x: 6, ç: 6, 
+        o: 7, 'ó': 9, 'ò': 14, 'ö': 14, 'õ': 7, 'ô': 7,  
+        z: 7, 
+        f: 8, p: 8
+      }
+
+      var listNumbers = [];
+
+      function translateNumber(){
+        // clear results
+        const results = document.getElementById("results");
+        results.innerHTML = '';
+        
+        // clear list of numbers
+        listNumbers = [];
+
+        // get values from input
+        const valueInput = document.getElementById("input_number").value;
+        let arrValues = valueInput.split('');
+
+        // transform text in numbers 
+        arrValues = arrValues.map((item) => valuesChar[item.toLowerCase()])
+        listNumbers.push(arrValues)
+
+        // sun values and insert the values in new array
+        sunNumber(listNumbers[0]);
+        
+        // tranform array in string list
+        listNumbers = listNumbers.map((itemList) => itemList.join('  -  '))
+        
+        // insert values in #results
+        return listNumbers.map((itemList) => {
+          let node = document.createElement("LI");               
+          node.innerHTML = itemList;
+          document.getElementById("results").appendChild(node);     
+        })
+
+      }
+
+      function sunNumber(arrValues){
+        let sunValues = [];
+        
+        if(arrValues.length > 1){
+
+          arrValues.map((item, key) => {
+
+            if(key > 0){
+              const sunVal = arrValues[key-1] + item
+              sunValues.push(sunVal)
+
+            }
+
+          })
+
+          listNumbers.push(sunValues);
+          return sunNumber(sunValues);
+
+        } else {
+
+          return listNumbers;
+        }
+
+      }
+
+    </script>
+  </body>
+</html>
